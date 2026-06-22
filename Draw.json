@@ -1,1 +1,30 @@
-
+[
+    {
+    "drawNumber": 299,
+    "date": "June 22, 2026",
+    "type": "Provincial Nominee Program",
+    "count": 955,
+    "score": 729
+  },
+  {
+    "drawNumber": 298,
+    "date": "June 15, 2026",
+    "type": "Canadian Experience Class",
+    "count": 3000,
+    "score": 521
+  },
+  {
+    "drawNumber": 297,
+    "date": "June 12, 2026",
+    "type": "Provincial Nominee Program",
+    "count": 1500,
+    "score": 742
+  },
+  {
+    "drawNumber": 296,
+    "date": "June 01, 2026",
+    "type": "French Language Proficiency",
+    "count": 2500,
+    "score": 410
+  }
+]
