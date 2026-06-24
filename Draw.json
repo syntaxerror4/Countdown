@@ -2,6 +2,15 @@
 {
     "drawNumber": 302,
     "date": "June 24, 2026",
+    "type": "Physicians with Canadian experience",
+    "count": 271,
+    "score": 223
+},
+    
+    
+    {
+    "drawNumber": 302,
+    "date": "June 24, 2026",
     "type": "Provincial Nominee Program",
     "count": 4001,
     "score": 300
