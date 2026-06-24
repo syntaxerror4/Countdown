@@ -1,6 +1,13 @@
 [
 {
-    "drawNumber": 302,
+    "drawNumber": 304,
+    "date": "June 24, 2026",
+    "type": "Doctors-CEC",
+    "count": 400,
+    "score": 500
+},
+    {
+    "drawNumber": 303,
     "date": "June 24, 2026",
     "type": "Physicians with Canadian experience",
     "count": 271,
