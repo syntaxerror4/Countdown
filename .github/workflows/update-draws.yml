@@ -2,8 +2,8 @@ name: Update Draw Data
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Every hour
-  workflow_dispatch:      # Manual trigger from Actions tab
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
 jobs:
   update:
@@ -17,6 +17,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install axios cheerio
+
+      - name: Debug files
+        run: |
+          pwd
+          ls -la
+          ls -la scripts/ || echo "scripts folder not found"
 
       - name: Fetch and update draws
         run: node ./scripts/fetch_draws.js
