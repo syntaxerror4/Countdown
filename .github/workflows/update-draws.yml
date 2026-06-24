@@ -19,7 +19,7 @@ jobs:
         run: npm install axios cheerio
 
       - name: Fetch and update draws
-        run: node scripts/fetch_draws.js
+        run: node ./scripts/fetch_draws.js
 
       - name: Commit if changed
         run: |
