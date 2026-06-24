@@ -17,15 +17,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install axios cheerio
-
-      - name: Debug files
-        run: |
-          pwd
-          ls -la
-          ls -la scripts/ || echo "scripts folder not found"
+        working-directory: ${{ github.workspace }}
 
       - name: Fetch and update draws
-        run: node ./scripts/fetch_draws.js
+        working-directory: ${{ github.workspace }}
+        run: node ${{ github.workspace }}/scripts/fetch_draws.js
 
       - name: Commit if changed
         run: |
