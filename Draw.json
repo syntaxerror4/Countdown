@@ -1,1 +1,65 @@
-[]
+[
+  {
+    "drawNumber": 423,
+    "date": "July 6, 2026",
+    "type": "Provincial Nominee Program",
+    "count": 534,
+    "score": 708
+  },
+  {
+    "drawNumber": 422,
+    "date": "June 25, 2026",
+    "type": "Healthcare and Social Services",
+    "count": 4000,
+    "score": 475
+  },
+  {
+    "drawNumber": 421,
+    "date": "June 24, 2026",
+    "type": "Physicians with Canadian Experience",
+    "count": 271,
+    "score": 223
+  },
+  {
+    "drawNumber": 420,
+    "date": "June 23, 2026",
+    "type": "Canadian Experience Class",
+    "count": 4000,
+    "score": 516
+  },
+  {
+    "drawNumber": 419,
+    "date": "June 22, 2026",
+    "type": "Provincial Nominee Program",
+    "count": 995,
+    "score": 730
+  },
+  {
+    "drawNumber": 418,
+    "date": "May 28, 2026",
+    "type": "French Language Proficiency",
+    "count": 4500,
+    "score": 409
+  },
+  {
+    "drawNumber": 417,
+    "date": "May 27, 2026",
+    "type": "Canadian Experience Class",
+    "count": 3000,
+    "score": 518
+  },
+  {
+    "drawNumber": 416,
+    "date": "May 26, 2026",
+    "type": "Provincial Nominee Program",
+    "count": 334,
+    "score": 805
+  },
+  {
+    "drawNumber": 415,
+    "date": "May 11, 2026",
+    "type": "Provincial Nominee Program",
+    "count": 380,
+    "score": 798
+  }
+]
