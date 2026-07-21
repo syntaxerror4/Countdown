@@ -1,4 +1,23 @@
-- name: Fetch and update draws
+name: Update Draw Data
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch and update draws
         run: |
           cat > /tmp/update-draws.js << 'EOF'
           const https = require("https");
@@ -89,3 +108,10 @@
           main().catch(e => { console.error("Fatal error:", e.message); process.exit(1); });
           EOF
           node /tmp/update-draws.js
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Draw.json
+          git diff --staged --quiet || (git commit -m "chore: auto-update draws [skip ci]" && git push)
