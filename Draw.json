@@ -1,7 +1,7 @@
 [
   {
     "drawNumber": 427,
-    "drawDateFull": "July 20, 2026",
+    "drawDateTime": "July 20, 2026 at 10:34:30 UTC",
     "drawName": "Provincial Nominee Program",
     "drawSize": 511,
     "drawCRS": 744,
@@ -9,7 +9,7 @@
   },
   {
     "drawNumber": 426,
-    "drawDateFull": "July 10, 2026",
+    "drawDateTime": "July 10, 2026 at 10:42:46 UTC",
     "drawName": "Senior managers with Canadian Work Experience, 2026-Version 1",
     "drawSize": 500,
     "drawCRS": 392,
@@ -17,7 +17,7 @@
   },
   {
     "drawNumber": 425,
-    "drawDateFull": "July 9, 2026",
+    "drawDateTime": "July 9, 2026 at 10:32:58 UTC",
     "drawName": "French-Language proficiency 2026-Version 2",
     "drawSize": 5,
     "drawCRS": 420,
@@ -25,7 +25,7 @@
   },
   {
     "drawNumber": 424,
-    "drawDateFull": "July 7, 2026",
+    "drawDateTime": "July 7, 2026 at 11:16:50 UTC",
     "drawName": "Canadian Experience Class",
     "drawSize": 2,
     "drawCRS": 517,
@@ -33,7 +33,7 @@
   },
   {
     "drawNumber": 423,
-    "drawDateFull": "July 6, 2026",
+    "drawDateTime": "July 6, 2026 at 11:48:43 UTC",
     "drawName": "Provincial Nominee Program",
     "drawSize": 534,
     "drawCRS": 708,
@@ -41,7 +41,7 @@
   },
   {
     "drawNumber": 422,
-    "drawDateFull": "June 25, 2026",
+    "drawDateTime": "June 25, 2026 at 13:51:43 UTC",
     "drawName": "Healthcare and Social Services Occupations, 2026-Version 3",
     "drawSize": 4,
     "drawCRS": 475,
@@ -49,7 +49,7 @@
   },
   {
     "drawNumber": 421,
-    "drawDateFull": "June 24, 2026",
+    "drawDateTime": "June 24, 2026 at 14:00:30 UTC",
     "drawName": "Physicians with Canadian Work Experience, 2026-Version 1",
     "drawSize": 271,
     "drawCRS": 223,
@@ -57,7 +57,7 @@
   },
   {
     "drawNumber": 420,
-    "drawDateFull": "June 23, 2026",
+    "drawDateTime": "June 23, 2026 at 12:52:12 UTC",
     "drawName": "Canadian Experience Class",
     "drawSize": 4,
     "drawCRS": 516,
