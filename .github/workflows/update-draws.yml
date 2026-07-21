@@ -44,33 +44,42 @@ jobs:
           
           async function main() {
             console.log("Fetching draws from IRCC...");
-            const irccData = await fetchJSON(URL);
-            console.log("Response:", JSON.stringify(irccData, null, 2));
+            const irccArray = await fetchJSON(URL);
+            
+            if (!Array.isArray(irccArray) || irccArray.length === 0) {
+              console.error("Invalid response or empty array");
+              process.exit(1);
+            }
+            
+            const irccData = irccArray[0];
+            console.log("Latest draw:", JSON.stringify(irccData, null, 2));
             
             const newDraw = {
-              drawNumber: irccData.drawNumber,
+              drawNumber: parseInt(irccData.drawNumber),
               drawDateFull: irccData.drawDateFull,
               drawName: irccData.drawName,
-              drawSize: irccData.drawSize,
-              drawCRS: irccData.drawCRS,
-              drawCutOff: irccData.drawCutOff
+              drawSize: parseInt(irccData.drawSize),
+              drawCRS: parseInt(irccData.drawCRS),
+              drawCutOff: irccData.drawCutOff || ""
             };
             
-            console.log("Mapped draw:", newDraw);
+            console.log("Mapped draw:", JSON.stringify(newDraw, null, 2));
             
             let existing = [];
             try { 
               existing = JSON.parse(fs.readFileSync(DRAW_JSON_PATH, "utf8")); 
-            } catch {}
+            } catch (e) {
+              console.log("Draw.json doesn't exist yet, creating new");
+            }
             
             const isDuplicate = existing.some(d => d.drawNumber === newDraw.drawNumber);
             
             if (isDuplicate) {
-              console.log("Draw already exists. No update needed.");
+              console.log("Draw #" + newDraw.drawNumber + " already exists. No update needed.");
               return;
             }
             
-            console.log("Adding new draw:", newDraw.drawNumber);
+            console.log("Adding new draw #" + newDraw.drawNumber);
             const merged = [newDraw, ...existing].slice(0, 20);
             
             fs.writeFileSync(DRAW_JSON_PATH, JSON.stringify(merged, null, 2));
