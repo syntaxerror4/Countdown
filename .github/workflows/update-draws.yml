@@ -19,7 +19,7 @@ jobs:
 
       - name: Fetch and update draws
         run: |
-          node - << 'EOF'
+          node <<'EOFSCRIPT'
           const https = require("https");
           const fs = require("fs");
           const path = require("path");
@@ -46,26 +46,6 @@ jobs:
             console.log("Fetching draws from IRCC...");
             const irccData = await fetchJSON(URL);
             
-            // Map IRCC fields to your format
             const newDraw = {
               drawNumber: irccData.drawNumber,
               drawDateFull: irccData.drawDateFull,
-              drawName: irccData.drawName,
-              drawSize: irccData.drawSize,
-              drawCRS: irccData.drawCRS,
-              drawCutOff: irccData.drawCutOff
-            };
-            
-            console.log("Latest draw:", newDraw);
-            
-            let existing = [];
-            try { 
-              existing = JSON.parse(fs.readFileSync(DRAW_JSON_PATH, "utf8")); 
-            } catch {}
-            
-            // Check if this draw already exists
-            const isDuplicate = existing.some(d => d.drawNumber === newDraw.drawNumber);
-            
-            if (isDuplicate) {
-              console.log("Draw already exists. No update needed.");
-              return;
