@@ -55,7 +55,7 @@ jobs:
             // Map latest 8 draws from IRCC
             const newDraws = draws.slice(0, 8).map(irccDraw => ({
               drawNumber: parseInt(irccDraw.drawNumber),
-              drawDateFull: irccDraw.drawDateFull,
+              drawDateTime: irccDraw.drawDateTime,
               drawName: irccDraw.drawName,
               drawSize: parseInt(irccDraw.drawSize),
               drawCRS: parseInt(irccDraw.drawCRS),
