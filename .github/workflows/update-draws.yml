@@ -1,23 +1,4 @@
-name: Update Draw Data
-
-on:
-  schedule:
-    - cron: '0 */3 * * *'
-  workflow_dispatch:
-
-jobs:
-  update:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Fetch and update draws
+- name: Fetch and update draws
         run: |
           cat > /tmp/update-draws.js << 'EOF'
           const https = require("https");
@@ -33,8 +14,15 @@ jobs:
                 res.on("data", chunk => data += chunk);
                 res.on("end", () => {
                   try {
-                    resolve(JSON.parse(data));
+                    console.log("Raw response length:", data.length);
+                    console.log("First 200 chars:", data.substring(0, 200));
+                    const parsed = JSON.parse(data);
+                    console.log("Parsed type:", typeof parsed);
+                    console.log("Is array:", Array.isArray(parsed));
+                    console.log("Length:", parsed.length || Object.keys(parsed).length);
+                    resolve(parsed);
                   } catch (e) {
+                    console.error("Parse error:", e.message);
                     reject(e);
                   }
                 });
@@ -44,23 +32,35 @@ jobs:
           
           async function main() {
             console.log("Fetching draws from IRCC...");
-            const irccArray = await fetchJSON(URL);
+            const irccData = await fetchJSON(URL);
             
-            if (!Array.isArray(irccArray) || irccArray.length === 0) {
-              console.error("Invalid response or empty array");
+            console.log("Full response:", JSON.stringify(irccData, null, 2).substring(0, 500));
+            
+            let draws = irccData;
+            if (!Array.isArray(irccData)) {
+              if (irccData.data && Array.isArray(irccData.data)) {
+                draws = irccData.data;
+              } else {
+                console.error("Response is not an array and no data property found");
+                process.exit(1);
+              }
+            }
+            
+            if (draws.length === 0) {
+              console.error("Draws array is empty");
               process.exit(1);
             }
             
-            const irccData = irccArray[0];
-            console.log("Latest draw:", JSON.stringify(irccData, null, 2));
+            const irccDraw = draws[0];
+            console.log("Latest draw:", JSON.stringify(irccDraw, null, 2));
             
             const newDraw = {
-              drawNumber: parseInt(irccData.drawNumber),
-              drawDateFull: irccData.drawDateFull,
-              drawName: irccData.drawName,
-              drawSize: parseInt(irccData.drawSize),
-              drawCRS: parseInt(irccData.drawCRS),
-              drawCutOff: irccData.drawCutOff || ""
+              drawNumber: parseInt(irccDraw.drawNumber),
+              drawDateFull: irccDraw.drawDateFull,
+              drawName: irccDraw.drawName,
+              drawSize: parseInt(irccDraw.drawSize),
+              drawCRS: parseInt(irccDraw.drawCRS),
+              drawCutOff: irccDraw.drawCutOff || ""
             };
             
             console.log("Mapped draw:", JSON.stringify(newDraw, null, 2));
@@ -75,7 +75,7 @@ jobs:
             const isDuplicate = existing.some(d => d.drawNumber === newDraw.drawNumber);
             
             if (isDuplicate) {
-              console.log("Draw #" + newDraw.drawNumber + " already exists. No update needed.");
+              console.log("Draw #" + newDraw.drawNumber + " already exists");
               return;
             }
             
@@ -86,13 +86,6 @@ jobs:
             console.log("Done. Total draws:", merged.length);
           }
           
-          main().catch(e => { console.error(e); process.exit(1); });
+          main().catch(e => { console.error("Fatal error:", e.message); process.exit(1); });
           EOF
           node /tmp/update-draws.js
-
-      - name: Commit if changed
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Draw.json
-          git diff --staged --quiet || (git commit -m "chore: auto-update draws [skip ci]" && git push)
