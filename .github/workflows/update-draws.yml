@@ -23,95 +23,49 @@ jobs:
           const https = require("https");
           const fs = require("fs");
           const path = require("path");
-
           const DRAW_JSON_PATH = path.join(process.env.GITHUB_WORKSPACE, "Draw.json");
-          const URL = "https://www.canadavisa.com/express-entry-invitations-to-apply-issued.html";
-
-          function normalizeType(raw) {
-            if (/french/i.test(raw)) return "French Language Proficiency";
-            if (/provincial nominee/i.test(raw)) return "Provincial Nominee Program";
-            if (/canadian experience/i.test(raw)) return "Canadian Experience Class";
-            if (/federal skilled worker/i.test(raw)) return "Federal Skilled Worker";
-            if (/federal skilled trades/i.test(raw)) return "Federal Skilled Trades";
-            if (/healthcare|social service/i.test(raw)) return "Healthcare and Social Services";
-            if (/trade occupation/i.test(raw)) return "Trades Occupations";
-            if (/stem/i.test(raw)) return "STEM Occupations";
-            if (/agriculture/i.test(raw)) return "Agriculture and Agri-Food";
-            if (/education/i.test(raw)) return "Education Occupations";
-            if (/physician/i.test(raw)) return "Physicians with Canadian Experience";
-            if (/senior manager/i.test(raw)) return "Senior Managers";
-            return raw.trim();
-          }
-
-          function fetchPage(url) {
+          const URL = "https://www.canada.ca/content/dam/ircc/documents/json/ee_rounds_123_en.json";
+          
+          function fetchJSON(url) {
             return new Promise((resolve, reject) => {
               https.get(url, { headers: { "User-Agent": "Mozilla/5.0" } }, (res) => {
                 let data = "";
                 res.on("data", chunk => data += chunk);
-                res.on("end", () => resolve(data));
+                res.on("end", () => {
+                  try {
+                    resolve(JSON.parse(data));
+                  } catch (e) {
+                    reject(e);
+                  }
+                });
               }).on("error", reject);
             });
           }
-
+          
           async function main() {
-            console.log("Fetching draws...");
-            const html = await fetchPage(URL);
-
-            const scraped = [];
-            const tableRegex = /<table[\s\S]*?<\/table>/gi;
-            const rowRegex = /<tr[\s\S]*?<\/tr>/gi;
-            const cellRegex = /<td[^>]*>([\s\S]*?)<\/td>/gi;
-            const tagRegex = /<[^>]+>/g;
-
-            const tables = html.match(tableRegex) || [];
-            for (const table of tables) {
-              if (!table.includes("Draw") && !table.includes("CRS")) continue;
-              const rows = table.match(rowRegex) || [];
-              for (let i = 1; i < rows.length; i++) {
-                const cells = [];
-                let m;
-                const cr = new RegExp(cellRegex.source, "gi");
-                while ((m = cr.exec(rows[i])) !== null) {
-                  cells.push(m[1].replace(tagRegex, "").trim());
-                }
-                if (cells.length < 4) continue;
-                const drawNum = parseInt(cells[0].replace(/\D/g, ""), 10);
-                const crsMatch = cells[1].match(/(\d+)/);
-                const typeMatch = cells[1].match(/\*([^)]+)\)/);
-                const score = crsMatch ? parseInt(crsMatch[1], 10) : 0;
-                const type = typeMatch ? normalizeType(typeMatch[1]) : "General";
-                const dateStr = cells[2].trim();
-                const itas = parseInt(cells[3].replace(/\D/g, ""), 10);
-                if (!drawNum || !dateStr || !itas) continue;
-                const d = new Date(dateStr);
-                if (isNaN(d.getTime())) continue;
-                scraped.push({ drawNumber: drawNum, date: dateStr, type, count: itas, score, _d: d });
-              }
-            }
-
-            console.log("Scraped:", scraped.length, "draws");
-            if (scraped.length === 0) { console.error("No draws found"); process.exit(1); }
-
+            console.log("Fetching draws from IRCC...");
+            const irccData = await fetchJSON(URL);
+            
+            // Map IRCC fields to your format
+            const newDraw = {
+              drawNumber: irccData.drawNumber,
+              drawDateFull: irccData.drawDateFull,
+              drawName: irccData.drawName,
+              drawSize: irccData.drawSize,
+              drawCRS: irccData.drawCRS,
+              drawCutOff: irccData.drawCutOff
+            };
+            
+            console.log("Latest draw:", newDraw);
+            
             let existing = [];
-            try { existing = JSON.parse(fs.readFileSync(DRAW_JSON_PATH, "utf8")); } catch {}
-            const existingNums = new Set(existing.map(d => d.drawNumber));
-            const cutoff = new Date(); cutoff.setMonth(cutoff.getMonth() - 2);
-            const newDraws = scraped.filter(d => !existingNums.has(d.drawNumber) && d._d >= cutoff);
-
-            if (newDraws.length === 0) { console.log("No new draws."); return; }
-            console.log("Adding", newDraws.length, "new draws");
-            const cleaned = newDraws.map(({ _d, ...rest }) => rest);
-            const merged = [...cleaned, ...existing].sort((a, b) => b.drawNumber - a.drawNumber).slice(0, 20);
-            fs.writeFileSync(DRAW_JSON_PATH, JSON.stringify(merged, null, 2));
-            console.log("Done. Total draws:", merged.length);
-          }
-
-          main().catch(e => { console.error(e); process.exit(1); });
-          EOF
-
-      - name: Commit if changed
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Draw.json
-          git diff --staged --quiet || (git commit -m "chore: auto-update draws [skip ci]" && git push)
+            try { 
+              existing = JSON.parse(fs.readFileSync(DRAW_JSON_PATH, "utf8")); 
+            } catch {}
+            
+            // Check if this draw already exists
+            const isDuplicate = existing.some(d => d.drawNumber === newDraw.drawNumber);
+            
+            if (isDuplicate) {
+              console.log("Draw already exists. No update needed.");
+              return;
