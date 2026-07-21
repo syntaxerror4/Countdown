@@ -52,36 +52,20 @@ jobs:
               process.exit(1);
             }
             
-            const irccDraw = draws[0];
-            console.log("Latest draw:", JSON.stringify(irccDraw, null, 2));
-            
-            const newDraw = {
+            // Map latest 8 draws from IRCC
+            const newDraws = draws.slice(0, 8).map(irccDraw => ({
               drawNumber: parseInt(irccDraw.drawNumber),
               drawDateFull: irccDraw.drawDateFull,
               drawName: irccDraw.drawName,
               drawSize: parseInt(irccDraw.drawSize),
               drawCRS: parseInt(irccDraw.drawCRS),
               drawCutOff: irccDraw.drawCutOff || ""
-            };
+            }));
             
-            console.log("Mapped draw:", JSON.stringify(newDraw, null, 2));
+            console.log("Loaded " + newDraws.length + " draws from IRCC");
             
-            let existing = [];
-            try { 
-              existing = JSON.parse(fs.readFileSync(DRAW_JSON_PATH, "utf8")); 
-            } catch (e) {
-              console.log("Draw.json doesn't exist yet, creating new");
-            }
-            
-            const isDuplicate = existing.some(d => d.drawNumber === newDraw.drawNumber);
-            
-            if (isDuplicate) {
-              console.log("Draw #" + newDraw.drawNumber + " already exists");
-              return;
-            }
-            
-            console.log("Adding new draw #" + newDraw.drawNumber);
-            const merged = [newDraw, ...existing].slice(0, 20);
+            // Just write the latest 8 from IRCC
+            const merged = newDraws;
             
             fs.writeFileSync(DRAW_JSON_PATH, JSON.stringify(merged, null, 2));
             console.log("Done. Total draws:", merged.length);
