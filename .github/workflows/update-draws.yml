@@ -1,10 +1,8 @@
 name: Update Draw Data
-
 on:
   schedule:
     - cron: '0 */3 * * *'
   workflow_dispatch:
-
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -12,11 +10,9 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-
       - name: Fetch and update draws
         run: |
           cat > /tmp/update-draws.js << 'EOF'
@@ -25,7 +21,7 @@ jobs:
           const path = require("path");
           const DRAW_JSON_PATH = path.join(process.env.GITHUB_WORKSPACE, "Draw.json");
           const URL = "https://www.canada.ca/content/dam/ircc/documents/json/ee_rounds_123_en.json";
-          
+
           function fetchJSON(url) {
             return new Promise((resolve, reject) => {
               https.get(url, { headers: { "User-Agent": "Mozilla/5.0" } }, (res) => {
@@ -41,40 +37,63 @@ jobs:
               }).on("error", reject);
             });
           }
-          
+
+          // IRCC returns numeric fields as comma-formatted strings (e.g. "5,000").
+          // parseInt() alone stops at the first comma and silently returns the
+          // wrong value (5 instead of 5000), so always strip separators first.
+          function safeInt(value) {
+            if (value === null || value === undefined) return null;
+            const cleaned = String(value).replace(/,/g, "").trim();
+            if (cleaned === "") return null;
+            const n = parseInt(cleaned, 10);
+            return Number.isNaN(n) ? null : n;
+          }
+
           async function main() {
             console.log("Fetching draws from IRCC...");
             const irccData = await fetchJSON(URL);
-            
+
             const draws = irccData.rounds;
             if (!Array.isArray(draws) || draws.length === 0) {
               console.error("No rounds found in response");
               process.exit(1);
             }
-            
+
             // Map latest 8 draws from IRCC
-            const newDraws = draws.slice(0, 8).map(irccDraw => ({
-              drawNumber: parseInt(irccDraw.drawNumber),
-              drawDateTime: irccDraw.drawDateTime,
-              drawName: irccDraw.drawName,
-              drawSize: parseInt(irccDraw.drawSize),
-              drawCRS: parseInt(irccDraw.drawCRS),
-              drawCutOff: irccDraw.drawCutOff || ""
-            }));
-            
+            const newDraws = draws.slice(0, 8).map(irccDraw => {
+              const drawSize = safeInt(irccDraw.drawSize);
+              const drawCRS = safeInt(irccDraw.drawCRS);
+              const drawNumber = safeInt(irccDraw.drawNumber);
+
+              if (drawSize === null || drawCRS === null || drawNumber === null) {
+                console.warn(
+                  `Warning: unparsed numeric field on draw #${irccDraw.drawNumber} ` +
+                  `(drawNumber=${irccDraw.drawNumber}, drawSize=${irccDraw.drawSize}, drawCRS=${irccDraw.drawCRS})`
+                );
+              }
+
+              return {
+                drawNumber,
+                drawDateTime: irccDraw.drawDateTime,
+                drawName: irccDraw.drawName,
+                drawSize,
+                drawCRS,
+                drawCutOff: irccDraw.drawCutOff || ""
+              };
+            });
+
             console.log("Loaded " + newDraws.length + " draws from IRCC");
-            
+
             // Just write the latest 8 from IRCC
             const merged = newDraws;
-            
+
             fs.writeFileSync(DRAW_JSON_PATH, JSON.stringify(merged, null, 2));
             console.log("Done. Total draws:", merged.length);
           }
-          
+
           main().catch(e => { console.error("Fatal error:", e.message); process.exit(1); });
           EOF
           node /tmp/update-draws.js
-
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
