@@ -62,5 +62,21 @@
     "drawSize": 534,
     "drawCRS": 708,
     "drawCutOff": "June 4, 2026 at 14:49:51 UTC"
+  },
+  {
+    "drawNumber": 422,
+    "drawDateTime": "June 25, 2026 at 13:51:43 UTC",
+    "drawName": "Healthcare and Social Services Occupations, 2026-Version 3",
+    "drawSize": 4000,
+    "drawCRS": 475,
+    "drawCutOff": "May 21, 2026 at  12:14:09 UTC"
+  },
+  {
+    "drawNumber": 421,
+    "drawDateTime": "June 24, 2026 at 14:00:30 UTC",
+    "drawName": "Physicians with Canadian Work Experience, 2026-Version 1",
+    "drawSize": 271,
+    "drawCRS": 223,
+    "drawCutOff": "May 31, 2026 at 18:13:49 UTC"
   }
 ]
