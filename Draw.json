@@ -1,5 +1,13 @@
 [
   {
+    "drawNumber": 439,
+    "drawDateTime": "September 1, 2026 at 10:19:50 UTC",
+    "drawName": "Canadian Experience Class",
+    "drawSize": 2000,
+    "drawCRS": 521,
+    "drawCutOff": "August 18, 2026 at 03:24:13 UTC"
+  },
+  {
     "drawNumber": 438,
     "drawDateTime": "August 31st, 2026 at 10:42:13 UTC",
     "drawName": "Provincial Nominee Program",
@@ -70,13 +78,5 @@
     "drawSize": 4,
     "drawCRS": 368,
     "drawCutOff": "June 02, 2026 at 20:11:26 UTC"
-  },
-  {
-    "drawNumber": 429,
-    "drawDateTime": "July 22, 2026 at 11:12:26 UTC",
-    "drawName": "French-Language proficiency 2026-Version 2",
-    "drawSize": 5000,
-    "drawCRS": 399,
-    "drawCutOff": "November 19, 2025 at 21:21:56 UTC"
   }
 ]
