@@ -1,5 +1,13 @@
 [
   {
+    "drawNumber": 440,
+    "drawDateTime": "September 03, 2026 at 11:18:08 UTC",
+    "drawName": "Physicians with Canadian Work Experience, 2026-Version 1",
+    "drawSize": 229,
+    "drawCRS": 198,
+    "drawCutOff": "August 06, 2026 at 19:40:38 UTC"
+  },
+  {
     "drawNumber": 439,
     "drawDateTime": "September 1, 2026 at 10:19:50 UTC",
     "drawName": "Canadian Experience Class",
@@ -70,13 +78,5 @@
     "drawSize": 507,
     "drawCRS": 768,
     "drawCutOff": "May 15, 2026 at 15:58:19 UTC"
-  },
-  {
-    "drawNumber": 430,
-    "drawDateTime": "July 23, 2026 at 10:19:47 UTC",
-    "drawName": "Skilled Military Recruits, 2026-Version 1",
-    "drawSize": 4,
-    "drawCRS": 368,
-    "drawCutOff": "June 02, 2026 at 20:11:26 UTC"
   }
 ]
