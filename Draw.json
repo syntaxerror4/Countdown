@@ -1,5 +1,13 @@
 [
   {
+    "drawNumber": 442,
+    "drawDateTime": "September 14, 2026 at 10:26:01 UTC",
+    "drawName": "Provincial Nominee Program",
+    "drawSize": 576,
+    "drawCRS": 734,
+    "drawCutOff": "August 29, 2026 at 21:39:50 UTC"
+  },
+  {
     "drawNumber": 441,
     "drawDateTime": "September 04, 2026 at 11:16:45 UTC",
     "drawName": "Healthcare and Social Services Occupations, 2026-Version 3",
@@ -70,13 +78,5 @@
     "drawSize": 5000,
     "drawCRS": 391,
     "drawCutOff": "March 18, 2026 at 23:32:40 UTC"
-  },
-  {
-    "drawNumber": 432,
-    "drawDateTime": "August 05, 2026 at 10:41:26 UTC",
-    "drawName": "Canadian Experience Class",
-    "drawSize": 3000,
-    "drawCRS": 516,
-    "drawCutOff": "July 3rd 2026 at 21:35:13 UTC"
   }
 ]
