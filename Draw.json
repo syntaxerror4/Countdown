@@ -1,5 +1,13 @@
 [
   {
+    "drawNumber": 444,
+    "drawDateTime": "September 16, 2026 at 12:44:28 UTC",
+    "drawName": "Senior managers with Canadian Work Experience, 2026-Version 1",
+    "drawSize": 250,
+    "drawCRS": 389,
+    "drawCutOff": "September 01, 2026 at 23:05:13 UTC"
+  },
+  {
     "drawNumber": 443,
     "drawDateTime": "September 15, 2026 at 10:21:41 UTC",
     "drawName": "Canadian Experience Class",
@@ -70,13 +78,5 @@
     "drawSize": 442,
     "drawCRS": 760,
     "drawCutOff": "August 07, 2026 at 18:01:56 UTC"
-  },
-  {
-    "drawNumber": 434,
-    "drawDateTime": "August 7, 2026 at 10:08:20 UTC",
-    "drawName": "Transport Occupations, 2026-Version 2",
-    "drawSize": 300,
-    "drawCRS": 470,
-    "drawCutOff": "October 11, 2025 at 14:55:49 UTC"
   }
 ]
