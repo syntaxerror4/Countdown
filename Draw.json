@@ -1,5 +1,13 @@
 [
   {
+    "drawNumber": 447,
+    "drawDateTime": "October 01, 2026 at 12:47:55  UTC",
+    "drawName": "Trades Occupations, 2026-Version 3",
+    "drawSize": 3500,
+    "drawCRS": 476,
+    "drawCutOff": "May 28, 2026 at 16:55:23 UTC"
+  },
+  {
     "drawNumber": 446,
     "drawDateTime": "September 29, 2026 at  10:19:21 UTC",
     "drawName": "Canadian Experience Class",
@@ -70,13 +78,5 @@
     "drawSize": 562,
     "drawCRS": 697,
     "drawCutOff": "April 12th, 2026 at 04:32:26 UTC"
-  },
-  {
-    "drawNumber": 437,
-    "drawDateTime": "August 19th 2026 at 12:35:37 UTC",
-    "drawName": "French-Language proficiency 2026-Version 2",
-    "drawSize": 5000,
-    "drawCRS": 382,
-    "drawCutOff": "March 1, 2026 at 18:34:05 UTC"
   }
 ]
