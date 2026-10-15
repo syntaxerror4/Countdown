@@ -1,5 +1,13 @@
 [
   {
+    "drawNumber": 449,
+    "drawDateTime": "October 15, 2026 at 10:02:33 UTC",
+    "drawName": "Canadian Experience Class",
+    "drawSize": 2500,
+    "drawCRS": 519,
+    "drawCutOff": "September 21, 2026 at 19:00:47 UTC"
+  },
+  {
     "drawNumber": 448,
     "drawDateTime": "October 13, 2026 at 10:25:58",
     "drawName": "Provincial Nominee Program",
@@ -70,13 +78,5 @@
     "drawSize": 229,
     "drawCRS": 198,
     "drawCutOff": "August 06, 2026 at 19:40:38 UTC"
-  },
-  {
-    "drawNumber": 439,
-    "drawDateTime": "September 1, 2026 at 10:19:50 UTC",
-    "drawName": "Canadian Experience Class",
-    "drawSize": 2000,
-    "drawCRS": 521,
-    "drawCutOff": "August 18, 2026 at 03:24:13 UTC"
   }
 ]
